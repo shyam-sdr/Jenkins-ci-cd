@@ -5,7 +5,7 @@ pipeline {
         APP_DIR   = "/home/ubuntu/flask-app"
         VENV_DIR = "venv"
         FLASK_PORT = "5000"
-        FLASK_EC2 = "ubuntu@13.204.86.38"
+        FLASK_EC2 = "ubuntu@35.154.184.112"
         // FLASK_EC2 = "ubuntu@NEW IP"
     }
 
@@ -14,7 +14,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Thilakeshaws27/Flask-Jenkins-CI-CD-Pipeline.git'
+                    url: 'https://github.com/shyam-sdr/Jenkins-ci-cd.git'
             }
         }
 
@@ -45,8 +45,8 @@ pipeline {
                 ssh ${FLASK_EC2} "mkdir -p ${APP_DIR}"
 
                 # Copy only required files (NO venv)
-                #scp app.py requirements.txt dev_flask.sh -r templates ${FLASK_EC2}:${APP_DIR}
-                scp -r app.py requirements.txt dev_flask.sh templates ${FLASK_EC2}:${APP_DIR}
+                #scp app.py requirements.txt dev_flask.sh -r ${FLASK_EC2}:${APP_DIR}
+                scp -r app.py requirements.txt dev_flask.sh ${FLASK_EC2}:${APP_DIR}
                 
                 # Install deps and restart Flask cleanly
                 ssh ${FLASK_EC2} "
@@ -64,3 +64,4 @@ pipeline {
         }
     }
 }
+
